@@ -1,0 +1,21 @@
+-- Calculate the average watch duration for each movie title across all users.
+
+SELECT 
+  title,
+  avg(duration) as avg_duration 
+FROM `confluent-cluster-stream-governed`.`stream_governed_kafka_cluster`.`netflix.activity.movies` 
+GROUP BY title;
+
+
+
+
+
+-- Analyze daily engagement patterns for each movie title. Calculate daily view counts and total watch time for each title to track how user interest fluctuates day by day
+
+SELECT 
+  DATE_FORMAT(datetime, 'yyyy-MM-dd') AS view_date,
+  title,
+  COUNT(*) AS daily_view_count,
+  SUM(duration) AS total_watch_time
+FROM `confluent-cluster-stream-governed`.`stream_governed_kafka_cluster`.`netflix.activity.movies`
+GROUP BY DATE_FORMAT(datetime, 'yyyy-MM-dd'),title;
